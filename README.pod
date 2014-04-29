@@ -1,0 +1,37 @@
+=head1 AUTHOR
+
+I didn't write this.  You're looking for: Jon Allen (JJ) C<< <jj@jonallen.info> >>
+I just wanted to change a couple things so I could quickly type up things in
+pods and print them with unicodes.
+
+=head1 CHANGES BY PAUL
+
+=head2 my branches
+
+=over
+
+=item master
+
+everything I did to this package (including this README.pod)
+
+=item utf8
+
+B<2014-04-29> added some stuff for UTF-8
+
+I C<use common::sense>, I admit it.  It does some UTF-8 things for me.  Maybe do
+them by hand if you don't like common sense.  Your call.
+
+=item printed-line-break-issue
+
+B<2014-04-29> fixed an odd spacing problem I was having while printing in evince (only)
+
+You could argue that removing line breaks is the wrong approach.  How can I
+argue this?  You're clearly right.  But it works for me. :p
+
+=back
+
+=head1 LICENSE
+
+JJ picked the artistic license.  I doubt I have any influence over that for my
+13 bytes of changes, but if I have any copyrights on my changes, then the
+artistic license should apply to those too.
