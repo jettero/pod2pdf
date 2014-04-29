@@ -1,4 +1,7 @@
-#! /Users/jj/bin/perl
+#!/usr/bin/perl
+
+eval 'exec /usr/bin/perl  -S $0 ${1+"$@"}'
+    if 0; # not running under some shell
 
 # pod2pdf.pl - converts Pod to PDF format
 #
@@ -14,8 +17,6 @@
 
 #--Load required modules and activate Perl's safety features---------------
 
-use strict;
-use warnings;
 use App::pod2pdf;
 use File::Basename qw/basename/;
 use File::Spec::Functions;
@@ -23,7 +24,8 @@ use FindBin qw/$Bin/;
 use Getopt::ArgvFile qw/argvFile/;
 use Getopt::Long;
 use POSIX qw(locale_h);
-
+use common::sense;
+use Encode qw(decode_utf8);
 
 #--Load config files-------------------------------------------------------
 
@@ -77,7 +79,6 @@ GetOptions(\%config,
 $config{title}  = (@ARGV) ? $ARGV[0] : 'STDIN' unless (exists $config{title});
 $config{title} .= (' - ' . ((@ARGV) ? scalar localtime($^T - (-M $ARGV[0])*24*60*60) : scalar localtime)) if (exists $config{timestamp});
 
-
 #--Set output location-----------------------------------------------------
 
 if (my $outfile = $config{output_file}) {
@@ -87,9 +88,16 @@ if (my $outfile = $config{output_file}) {
 
 #--Tell the OS we are going to create binary data--------------------------
 
+# modified by paul@mei.net to allow unicode things in the files
+binmode *STDIN, ":encoding(utf8)";
+
 setlocale(LC_ALL,'C');
 binmode *STDOUT;
 
+# perl treats @ARGV as ascii unless you convert
+$config{$_} = decode_utf8($config{$_}) for keys %config;
+
+# /paul
 
 #--Parse our Pod-----------------------------------------------------------
 
