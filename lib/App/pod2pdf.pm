@@ -157,6 +157,17 @@ sub verbatim {
 
 sub textblock {
   my ($self, $text, $line_num) = @_;
+
+  # modification by paul@mei.net:
+  # evince (or something) can't handle the line breaks well
+  # I end up with line breakssquished togetherlikethis.
+
+  $text =~ s/\x0d?\x0a/ /g;
+
+  # note that everything looks fine in evince until print-time.
+  # the print preview will show the problem I see on print. YMMV, probably a
+  # bug in my bleeding edge ubuntu 14.04 version of evince... frog knows..
+
   if ($text =~ /\S/) {  # ignore blank paragraphs
     $self->set_item_textblock_flag;
     $self->reset_space_flag;
